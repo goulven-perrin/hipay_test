@@ -5,10 +5,17 @@ const axios = require('axios');
 function searchPlants(token, userInput) {
   return axios.get(`https://trefle.io/api/v1/plants?token=${token}&page=1&filter[family_common_name]=${userInput}`)
     .then(response => {
-      // Récupérer les données
+      // Récupération des données
       const plantData = response.data.data;
-      // Retourner les données
-      return plantData;
+
+      // Création d'un tableau de données simplifiées
+      const simplifiedData = plantData.map(plant => ({
+        scientific_name: plant.scientific_name,
+        year: plant.year,
+      }));
+
+      // Retourne le tableau
+      return simplifiedData;
     })
 }
 
